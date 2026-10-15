@@ -11,8 +11,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # 4. 소스 코드 복사
 COPY . .
 
-# 5. 실행 포트 노출
-EXPOSE 8080
+# 5. Cloud Run PORT 환경변수 기본값 설정
+ENV PORT=8080
 
-# 6. Uvicorn 서버 실행 명령 (Cloud Run은 이 명령을 사용하여 컨테이너를 시작)
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]
+# 6. Uvicorn 실행 시 환경변수 $PORT를 사용하도록 변경 (exec 형태 사용)
+CMD uvicorn main:app --host 0.0.0.0 --port $PORT
